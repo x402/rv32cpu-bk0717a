@@ -14,10 +14,12 @@ module RegFile32(
     reg wen [31:1];
     wire [31:0] q [31:0];
 
-    interger [4:0] i;
-    for(i = 1; i < 32; i = i + 1) begin
-        if(rd == i) wen[i] = 1;
-        else    wen[i] = 0;
+    always @(*) begin
+        interger [4:0] i;
+        for(i = 1; i < 32; i = i + 1) begin
+            if(rd == i) wen[i] = 1;
+            else    wen[i] = 0;
+        end
     end
     
     assign q[0] = `zero_word;
