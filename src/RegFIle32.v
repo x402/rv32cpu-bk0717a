@@ -11,10 +11,15 @@ module RegFile32(
     output [31:0] data_out2
 );
 
-    reg [31:0] d [31:0];
+    reg wen [31:1];
     wire [31:0] q [31:0];
+
+    interger [4:0] i;
+    for(i = 1; i < 32; i = i + 1) begin
+        if(rd == i) wen[i] = 1;
+        else    wen[i] = 0;
+    end
     
-    always @(*) d[rd] = data_in;
     assign q[0] = `zero_word;
     assign data_out1 = q[rs1];
     assign data_out2 = q[rs2];
@@ -22,7 +27,7 @@ module RegFile32(
     genvar i;
     generate
         for(i = 1; i < 32; i = i + 1) begin: reg_gen
-            Reg #(32, 0) u_reg(clk, rst_n, 1'b1, d[i], q[i]);
+            Reg #(32, 0) u_reg(clk, rst_n, wen[i], data_in, q[i]);
         end
     endgenerate
 endmodule
