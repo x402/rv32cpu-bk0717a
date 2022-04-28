@@ -1,4 +1,4 @@
-module AM(
+module AccessMem(
     input   [31:0]  data_w,
     output  [31:0]  data_r,
     input   [31:0]  addr,
