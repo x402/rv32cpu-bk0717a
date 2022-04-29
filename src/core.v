@@ -1,4 +1,4 @@
-module core(
+module Core(
     input clk,
     input rst_n,
 
