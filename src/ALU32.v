@@ -2,7 +2,7 @@ module ALU32(
     input [31:0] rs1_data,
     input [31:0] rs2_data,
     input [31:0] imm,
-    input imm_sel,
+    input num2_sel,
     input [2:0] alu_ctrl,
     output [31:0] result,
     output [3:0] flags      //zf,cf,of,sf
@@ -18,7 +18,7 @@ module ALU32(
     assign flags = {zf, cf, of, sf};
 
     wire [31:0] num2;   //rs2 or imm
-    Mux32_2_1 u_mux_num2(rs2_data, imm, imm_sel, num2);
+    Mux32_2_1 u_mux_num2(rs2_data, imm, num2_sel, num2);
 
 //================add/sub================
     wire [31:0] num2_xor;  //pos or neg

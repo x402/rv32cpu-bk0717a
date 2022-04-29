@@ -4,21 +4,21 @@ module WriteBack(
     input [31:0] alu_result,
     input [31:0] data_r,
 
-    input [5:0] b_ins,      //be, bne, bge, blt, bgeu, bltu
+    input [5:0] b_ins,      //beq, bne, bge, blt, bgeu, bltu
     input [3:0] flags,      //zf, cf, of, sf
 
     input [1:0] j_ins,      //jal, jalr
 
     input [1:0] u_ins,      //lui, auipc
 
-    input ren,              //read enable
+    input ren,              //mem read enable
 
     output [31:0] pc_new,
     output [31:0] data2reg
 );
 
-    wire be, bne, bge, blt, bgeu, bltu;
-    assign {be, bne, bge, blt, bgeu, bltu} = b_ins;
+    wire beq, bne, bge, blt, bgeu, bltu;
+    assign {beq, bne, bge, blt, bgeu, bltu} = b_ins;
 
     wire zf, cf, of, sf;
     assign {zf, cf, of, sf} = flags;
@@ -39,7 +39,7 @@ module WriteBack(
     wire branch;
     wire pc_b;
     assign branch = jal |
-                    (be & zf) |
+                    (beq & zf) |
                     (bne & ~zf) |
                     (bge & (of ^ sf)) |
                     (blt & ~(of ^ sf)) |

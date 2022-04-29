@@ -1,8 +1,11 @@
 module AccessMem(
+    //rw_data
     input   [31:0]  data_w,
     output  [31:0]  data_r,
     input   [31:0]  addr,
+    //ctrl
     input   [3:0]   rw_type,        //{u, w, h, b}
+    //to mem
     output  [31:2]  addr_to_mem,
     output  [3:0]   be,             //brank enable
     output  [31:0]  data_to_mem,
@@ -10,10 +13,7 @@ module AccessMem(
 ); 
 
     wire u, w, h, b;
-    assign u = rw_type[3];
-    assign w = rw_type[2];
-    assign h = rw_type[1];
-    assign b = rw_type[0];
+    assign {u, w, h, b} = rw_type;
 
     wire [1:0] a;
     assign a = addr[1:0];
