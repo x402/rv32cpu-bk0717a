@@ -24,10 +24,10 @@ module Decoder(
 );
 
     wire [6:0] funct7;      //7 31:25
-    wire [4:0] rs2;         //5 24:20
-    wire [4:0] rs1;         //5 19:15
+    //wire [4:0] rs2;       //5 24:20
+    //wire [4:0] rs1;       //5 19:15
     wire [2:0] funct3;      //3 14:12
-    wire [4:0] rd;          //5 11:7
+    //wire [4:0] rd;        //5 11:7
     wire [6:0] opcode;      //7  6:0
     wire [6:0] funct7_n;
     wire [2:0] funct3_n;
@@ -84,11 +84,11 @@ module Decoder(
     assign sw = s_type & funct3_n[2] & funct3[1] & funct3_n[0]; //010
 
     //r type 011_00_11
-    wire add, sub, xor, orr, andr;
+    wire add, sub, xorr, orr, andr;
     assign r_type = effect & t4_n & opcode_n[6] & opcode[5] & opcode[4];//011
     assign add = r_type & (&funct3_n) & funct7_n[5];            //000 0
     assign sub = r_type & (&funct3_n) & funct7[5];              //000 1
-    assign xor = r_type & funct3[2] & funct3_n[1] & funct3_n[0];//100
+    assign xorr = r_type & funct3[2] & funct3_n[1] & funct3_n[0];//100
     assign orr = r_type & funct3[2] & funct3[1] & funct3_n[0];   //110
     assign andr = r_type & (&funct3);                            //111
 
@@ -119,7 +119,7 @@ module Decoder(
 
     assign addi = i_calc & (&funct3_n);                         //000
     assign xori = i_calc & funct3[2] & funct3_n[1] & funct3_n[0];//100
-    assign ori = i_calc & funct3[2] & funct3[1] & funct3_n[0]   //110
+    assign ori = i_calc & funct3[2] & funct3[1] & funct3_n[0];  //110
     assign andi = i_calc & (&funct3);                           //111
     assign slli = i_calc & funct3_n[2] & funct3_n[1] & funct3[0] & (&funct7_n);//001 0
 
@@ -132,8 +132,8 @@ module Decoder(
     wire [31:0] b_imm;
     wire [31:0] u_imm;
     wire [31:0] j_imm;
-    assign i_imm = { {20{instr[31}}, instr[31:20]                                                           };
-    assign s_imm = { {20{instr[31}}, instr[31:25],                                  instr[11:7]             };
+    assign i_imm = { {20{instr[31]}}, instr[31:20]                                                          };
+    assign s_imm = { {20{instr[31]}}, instr[31:25],                                 instr[11:7]             };
     assign b_imm = { {20{instr[31]}},                   instr[7],   instr[30:25],   instr[11:8],    1'b0    };
     assign u_imm = { instr[31:12],                      12'b0                                               };
     assign j_imm = { {12{instr[31]}},   instr[19:12],   instr[20],  instr[30:25],   instr[24:21],   1'b0    };
@@ -150,7 +150,7 @@ module Decoder(
                         (sub)           ? 3'd1 :
                         (andr | andi)   ? 3'd2 :
                         (orr | ori)     ? 3'd3 :
-                        (xor | xori)    ? 3'd4 :
+                        (xorr | xori)    ? 3'd4 :
                         (slli)          ? 3'd5 :
                                           3'd0;
 

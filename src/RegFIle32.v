@@ -1,4 +1,4 @@
-`include "constant.v"
+`include "../lib/constant.v"
 
 module RegFile32(
     input clk,
@@ -14,9 +14,9 @@ module RegFile32(
 
     reg wen [31:1];
     wire [31:0] q [31:0];
+    integer i;
 
     always @(*) begin
-        interger [4:0] i;
         for(i = 1; i < 32; i = i + 1) begin
             if(rd == i) wen[i] = reg_wen;
             else    wen[i] = 0;
@@ -27,10 +27,10 @@ module RegFile32(
     assign data_out1 = q[rs1];
     assign data_out2 = q[rs2];
 
-    genvar i;
+    genvar j;
     generate
-        for(i = 1; i < 32; i = i + 1) begin: reg_gen
-            Reg #(32, 0) u_reg(clk, rst_n, wen[i], data_in, q[i]);
+        for(j = 1; j < 32; j = j + 1) begin: reg_gen
+            Reg #(32, 0) u_reg(clk, rst_n, wen[j], data_in, q[j]);
         end
     endgenerate
 endmodule
