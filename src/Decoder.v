@@ -12,7 +12,7 @@ module Decoder(
     output num2_sel,        //1:imm
 
     //access mem
-    output rw_type,         //u, w, h, b
+    output [3:0] rw_type,         //u, w, h, b
     output mem_wen,
     output mem_ren,
 
