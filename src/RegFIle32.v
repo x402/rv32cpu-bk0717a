@@ -6,6 +6,7 @@ module RegFile32(
     input [4:0] rs1,
     input [4:0] rs2,
     input [4:0] rd,
+    input reg_wen,
     input [31:0] data_in,
     output [31:0] data_out1,
     output [31:0] data_out2
@@ -17,7 +18,7 @@ module RegFile32(
     always @(*) begin
         interger [4:0] i;
         for(i = 1; i < 32; i = i + 1) begin
-            if(rd == i) wen[i] = 1;
+            if(rd == i) wen[i] = reg_wen;
             else    wen[i] = 0;
         end
     end

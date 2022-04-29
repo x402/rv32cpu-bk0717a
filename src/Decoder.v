@@ -13,13 +13,14 @@ module Decoder(
 
     //access mem
     output rw_type,         //u, w, h, b
-    output wen,
+    output mem_wen,
+    output mem_ren,
 
     //write back
     output [5:0] b_ins,      //be, bne, bge, blt, bgeu, bltu
     output [1:0] j_ins,      //jal, jalr
     output [1:0] u_ins,      //lui, auipc
-    output ren
+    output reg_wen
 );
 
     wire [6:0] funct7;      //7 31:25
@@ -77,7 +78,7 @@ module Decoder(
     //s type 010_00_11 (store)
     wire sb, sh, sw;
     assign s_type = effect & t4_n & opcode_n[6] & opcode[5] & opcode_n[4];//010
-    assign wen = s_type;
+    assign mem_wen = s_type;
     assign sb = s_type & (&funct3_n);                           //000
     assign sh = s_type & funct3_n[2] & funct3_n[1] & funct3[0]; //001
     assign sw = s_type & funct3_n[2] & funct3[1] & funct3_n[0]; //010
@@ -100,8 +101,10 @@ module Decoder(
     wire addi, xori, ori, andi;
     wire slli; 
     assign _i_type = effect & t4_n & (&opcode[6:5]);//00x
+    assign i_type = _i_type | jalr;
     assign i_load = _i_type & opcode_n[4];
     assign i_calc = _i_type & opcode[4];
+    assign mem_ren = i_load;
 
     assign lb = i_load & (&funct3_n);                           //000
     assign lh = i_load & funct3_n[2] & funct3_n[1] & funct3[0]; //001
@@ -109,18 +112,19 @@ module Decoder(
     assign lbu = i_load & funct3[2] & funct3_n[1] & funct3_n[0];//100
     assign lhu = i_load & funct3[2] & funct3_n[1] & funct3[0];  //101
 
-    assign i_type = _i_type | jalr;
     assign u = lbu | lhu;
     assign b = sb | lb | lbu;
     assign h = sh | lh | lhu;
     assign w = sw | lw;
-    assign ren = i_load;
 
     assign addi = i_calc & (&funct3_n);                         //000
     assign xori = i_calc & funct3[2] & funct3_n[1] & funct3_n[0];//100
     assign ori = i_calc & funct3[2] & funct3[1] & funct3_n[0]   //110
     assign andi = i_calc & (&funct3);                           //111
     assign slli = i_calc & funct3_n[2] & funct3_n[1] & funct3[0] & (&funct7_n);//001 0
+
+    //reg_write
+    assign reg_wen = ~(b_type | s_type);
 
 //================imm_gen================
     wire [31:0] i_imm;
