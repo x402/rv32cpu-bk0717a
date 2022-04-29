@@ -11,7 +11,7 @@ module WriteBack(
 
     input [1:0] u_ins,      //lui, auipc
 
-    input ren,              //mem read enable
+    input mem_ren,              //mem read enable
 
     output [31:0] pc_new,
     output [31:0] data2reg
