@@ -8,19 +8,28 @@ module BK0717A(
     output [7:0] seg
 );
 
-    wire clk_btn;
-    key_elimin u_key_clk0 (
-        .clk                     ( clk       ),
-        .rst_n                   ( rst_n     ),
-        .key_in                  ( clk0     ),
+    // wire clk_btn;
+    // key_elimin u_key_clk0 (
+    //     .clk                     ( clk       ),
+    //     .rst_n                   ( rst_n     ),
+    //     .key_in                  ( clk0     ),
 
-        .key_out                 ( clk_btn   )
-    );
+    //     .key_out                 ( clk_btn   )
+    // );
 
     wire [31:0] pc, instr;
+    wire [31:0] addr_to_mem, data_to_mem, data_from_mem;
+    wire [3:0] be;
+    wire mem_wen;
+
+    rom_ip u_rom_ip(
+        .clka                       ( clk           ),
+        .addra                      ( pc            ),
+        .douta                      ( instr         )
+    );
 
     Core  u_Core (
-        .clk                     ( clk_btn         ),
+        .clk                     ( clk0         ),//clk_btn
         .rst_n                   ( rst0_n          ),
         .instr                   ( instr           ),
         .data_from_mem           ( data_from_mem   ),
@@ -32,9 +41,38 @@ module BK0717A(
         .data_to_mem             ( data_to_mem     )
     );
 
-    wire [31:0] addr_to_mem, data_to_mem, data_from_mem;
-    wire [3:0] be;
-    wire mem_wen;
+    ram_ip u_ram_ip0(
+        .clka                   ( clk0           ),//clk_btn
+        .ena                    ( be[0]             ),
+        .wea                    ( mem_wen           ),
+        .addra                  ( addr_to_mem[7:2]  ),
+        .dina                   ( data_to_mem[7:0]  ),
+        .douta                  ( data_from_mem[7:0])
+    );
+    ram_ip u_ram_ip1(
+        .clka                   ( clk0           ),//clk_btn
+        .ena                    ( be[1]             ),
+        .wea                    ( mem_wen           ),
+        .addra                  ( addr_to_mem[7:2]  ),
+        .dina                   ( data_to_mem[15:8]  ),
+        .douta                  ( data_from_mem[15:8])
+    );
+    ram_ip u_ram_ip2(
+        .clka                   ( clk0           ),//clk_btn
+        .ena                    ( be[2]             ),
+        .wea                    ( mem_wen           ),
+        .addra                  ( addr_to_mem[7:2]  ),
+        .dina                   ( data_to_mem[23:16]  ),
+        .douta                  ( data_from_mem[23:16])
+    );
+    ram_ip u_ram_ip3(
+        .clka                   ( clk0           ),//clk_btn
+        .ena                    ( be[3]             ),
+        .wea                    ( mem_wen           ),
+        .addra                  ( addr_to_mem[7:2]  ),
+        .dina                   ( data_to_mem[31:24]  ),
+        .douta                  ( data_from_mem[31:24])
+    );
 
 
     seg16 u_seg16 (

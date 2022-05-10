@@ -1,4 +1,4 @@
-`include "constant.v"
+`include "../lib/constant.v"
 
 module PC32(
     input clk,
