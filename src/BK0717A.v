@@ -162,7 +162,7 @@ module BK0717A(
         .rs1                     ( rs1         ),
         .rs2                     ( rs2         ),
         .rd                      ( rd          ),
-        .reg_wen                 ( reg_wen     ),
+        .reg_wen                 ( reg_wen&btn_posedge     ),
         .data_in                 ( data2reg    ),
 
         .data_out1               ( rs1_data   ),
