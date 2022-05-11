@@ -1,4 +1,4 @@
-module seg16(
+module Seg16(
     input clk,
     input rst,
     input [15:0] data_A,

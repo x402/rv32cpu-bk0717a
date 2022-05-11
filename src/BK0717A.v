@@ -21,7 +21,7 @@ module BK0717A(
     wire [31:0] pc, instr;
     wire [31:0] addr_to_mem, data_to_mem, data_from_mem;
     wire [3:0] be;
-    wire mem_wen;
+    //wire mem_wen;
 
     rom_ip u_rom_ip(
         .clka                       ( clk           ),
@@ -69,7 +69,7 @@ module BK0717A(
     wire [3:0] flags;
 
     wire [31:0] data_w;
-    wire [3:0] rw_type;
+    //wire [3:0] rw_type;
     //wire [31:0] addr      //alu_result -> addr
 /*+-------------------------------------+
   |                 AM                  |
@@ -93,7 +93,7 @@ module BK0717A(
 //================instance================
     PC32  u_PC32 (
         .clk                     ( clk      ),
-        .rst_n                   ( rst_n    ),
+        .rst                     ( rst      ),
         .pc_wen                  (btn_posedge),
         .pc_new                  ( pc_new   ),
 
@@ -158,7 +158,7 @@ module BK0717A(
 
     RegFile32  u_RegFile32 (
         .clk                     ( clk         ),
-        .rst_n                   ( rst_n       ),
+        .rst                     ( rst         ),
         .rs1                     ( rs1         ),
         .rs2                     ( rs2         ),
         .rd                      ( rd          ),
