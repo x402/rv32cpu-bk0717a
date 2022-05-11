@@ -19,13 +19,15 @@ module BK0717A(
 //==========================================================
 
     wire [31:0] pc, instr;
-    wire [31:0] addr_to_mem, data_to_mem, data_from_mem;
+    wire [31:2] addr_to_mem;
+    wire [31:0] data_to_mem;
+    wire [31:0] data_from_mem;
     wire [3:0] be;
     //wire mem_wen;
 
     rom_ip u_rom_ip(
         .clka                       ( clk           ),
-        .addra                      ( pc            ),
+        .addra                      ( pc[9:2]            ),
         .douta                      ( instr         )
     );
 
@@ -42,7 +44,7 @@ module BK0717A(
     //     .data_to_mem             ( data_to_mem     )
     // );
 
-    wire pc_new;
+    wire [31:0] pc_new;
 /*+-------------------------------------+
   |                 PC                  |
   +-------------------------------------+*/
@@ -69,6 +71,7 @@ module BK0717A(
     wire [3:0] flags;
 
     wire [31:0] data_w;
+    assign data_w = rs2_data;
     //wire [3:0] rw_type;
     //wire [31:0] addr      //alu_result -> addr
 /*+-------------------------------------+
