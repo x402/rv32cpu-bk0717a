@@ -13,7 +13,7 @@ module RegFile32(
 );
 
     reg wen [31:1];
-    wire [31:0] q [31:0];
+    (*KEEP="TRUE"*)wire [31:0] q [31:0];
     integer i;
 
     always @(*) begin
