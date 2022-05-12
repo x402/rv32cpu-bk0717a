@@ -100,7 +100,7 @@ module Decoder(
     wire lbu, lhu;
     wire addi, xori, ori, andi;
     wire slli; 
-    assign _i_type = effect & t4_n & (&opcode[6:5]);//00x
+    assign _i_type = effect & t4_n & (&opcode_n[6:5]);//00x
     assign i_type = _i_type | jalr;
     assign i_load = _i_type & opcode_n[4];
     assign i_calc = _i_type & opcode[4];

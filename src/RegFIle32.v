@@ -2,7 +2,7 @@
 
 module RegFile32(
     input clk,
-    input rst_n,
+    input rst,
     input [4:0] rs1,
     input [4:0] rs2,
     input [4:0] rd,
@@ -13,7 +13,7 @@ module RegFile32(
 );
 
     reg wen [31:1];
-    wire [31:0] q [31:0];
+    (*KEEP="TRUE"*)wire [31:0] q [31:0];
     integer i;
 
     always @(*) begin
@@ -30,7 +30,7 @@ module RegFile32(
     genvar j;
     generate
         for(j = 1; j < 32; j = j + 1) begin: reg_gen
-            Reg #(32, 0) u_reg(clk, rst_n, wen[j], data_in, q[j]);
+            Reg #(32, 0) u_reg(clk, rst, wen[j], data_in, q[j]);
         end
     endgenerate
 endmodule

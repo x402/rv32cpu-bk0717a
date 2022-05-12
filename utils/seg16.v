@@ -1,6 +1,6 @@
-module seg16(
+module Seg16(
     input clk,
-    input rst_n,
+    input rst,
     input [15:0] data_A,
     input [15:0] data_B,
     input [15:0] data_C,
@@ -9,7 +9,7 @@ module seg16(
     output reg [7:0] seg
 );
 
-    parameter   SEG_NUM0 = 8'hc0,
+    localparam  SEG_NUM0 = 8'hc0,
                 SEG_NUM1 = 8'hf9,
                 SEG_NUM2 = 8'ha4,
                 SEG_NUM3 = 8'hb0,
@@ -31,8 +31,8 @@ module seg16(
     reg [3:0] data_out;
 
     //分频
-    always @(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
+    always @(posedge clk) begin
+        if(rst) begin
             count <= 2'h0;
             count_10000 <= 16'd0;
         end
