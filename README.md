@@ -1,6 +1,7 @@
 <div align="center">
 
-<img alt="LOGO" src="![bk](https://user-images.githubusercontent.com/75256484/168429539-8f24bd69-6a09-46e9-ac7e-a24a9312c553.png)" width=300 height=300/>
+<img alt="LOGO" src="https://user-images.githubusercontent.com/75256484/168429539-8f24bd69-6a09-46e9-ac7e-a24a9312c553.png" width=300 height=300/>
+        
 
 # rv32cpu-bk0717a
 
