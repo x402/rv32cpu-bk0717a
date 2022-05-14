@@ -1,5 +1,11 @@
+<div align="center">
+
+<img alt="LOGO" src="![bk](https://user-images.githubusercontent.com/75256484/168428834-fdc02636-abb5-4d04-9b8b-b9608369807e.png)" width=300 height=300/>
+
 # rv32cpu-bk0717a
 
+<br>
+<div>
 A simple CPU design based on RV32I instruction set and Xilinx FPGA.
 
 ## 简介
